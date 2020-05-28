@@ -17,15 +17,18 @@
     }
 
     function triggerWork(){
-        doWork();
-        displayMessage('Work Completed!');
+        doWork(onWorkCompletion);
+    }
+
+    function onWorkCompletion(){
+         displayMessage('Work Completed!');
     }
 
     function displayMessage(msg){
         var divMessages = document.getElementById('divMessages');
         divMessages.innerHTML += msg + '<br/>';
     }
-    function doWork(){
+    function doWork(workCompleteCallback){
 
         var totalIterations = 1000,
             currentIteration = 0;
@@ -41,6 +44,8 @@
                 setTimeout(oneIteration)
             } else {
                 console.log('Job DONE!!');
+                if (typeof workCompleteCallback === 'function')
+                    workCompleteCallback();
             }
         }
 
