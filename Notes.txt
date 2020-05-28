@@ -78,5 +78,13 @@ Use Case : 3
 50 / 5
 500 / 50
 
+DOM -> Document Object Model
 
+REPL - Read Execute Print Loop
 
+CommonJS
+    - Everything in a js file is considered private
+    - explicit export
+    - explicit import
+AMD
+ES6
