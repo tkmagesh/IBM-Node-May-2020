@@ -1,0 +1,82 @@
+What is Node.js?
+    serverside and clientside support
+    framework for server
+    handle client requests 
+    connector between client and server
+    javascript framework
+    server side js
+    asynchronous api
+
+JavaScript Runtime
+    execute javascript applications
+
+What applications?
+    serverside
+    Atom (Electron framework ) -> Node
+    Embedded
+    IOT
+
+Why Node.js?
+    Becoz it is a scripting language
+    server side and client side
+    asynchronous
+
+JavaScript (ES5)
+    Number, string, boolean, object, function, undefined, symbol
+    var, if else, switch, while, for, function, try, catch, throw
+    Array, Date, RegEx, timer apis
+
+Extremely less resource at runtime
+
+www.highscalability.com
+
+
+Single Threaded Event Loop
+
+Reception
+
+1. Visitor
+    Visitor Ledger
+    Gadget Ledger
+    Escorted
+
+2. Courier Guy
+    Courier Ledger
+
+3. Associate
+    Temp Badge Ledger
+
+Use Case : 1
+    Single Threaded
+        Blocking
+
+    Disadvantage
+        Long time
+    Advantage
+        Simple
+
+Use Case : 2
+    Multi Threaded
+        Blocking
+
+    Advantage
+        Less time
+    Disadvantage
+        More resource
+
+Use Case : 3
+    Single Threaded
+        Non Blocking
+    
+    Advantage
+        Less Resources
+
+    Disadvantage
+        More Time
+
+
+50 / 5
+500 / 50
+
+
+
