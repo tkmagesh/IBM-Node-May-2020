@@ -5,6 +5,13 @@ var http = require('http'),
     path = require('path'),
     calculator = require('./calculator');
 
+/* 
+    dataParser.js
+    serveStatic.js
+    serveCalculator.js
+    notFoundHandler.js
+*/
+
 var staticExtns = ['.html', '.css', '.js', '.xml', '.json', '.txt', '.png', '.ico', '.jpg'];
 function isStatic(resource){
     var resourceExtn = path.extname(resource);
