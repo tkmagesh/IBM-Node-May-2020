@@ -1,5 +1,6 @@
 var fs = require('fs');
-try {
+console.log(process.argv);
+ try {
     var fileContents = fs.readFileSync('./sample1.txt', { encoding: 'utf8'});
     console.log(fileContents);
     console.log('Thats all folks');
