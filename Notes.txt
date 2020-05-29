@@ -88,3 +88,7 @@ CommonJS
     - explicit import
 AMD
 ES6
+
+Streams
+    - Readable Stream
+    - Writable Stream
