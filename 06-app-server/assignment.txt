@@ -1,0 +1,18 @@
+create a server that will respond to requests as given below:
+
+http://localhost:8085/calculator?op=add&x=100&y=200         -> 300
+http://localhost:8085/calculator?op=subtract&x=100&y=200    -> -100
+http://localhost:8085/calculator?op=multiply&x=100&y=200    -> 20000
+http://localhost:8085/calculator?op=divide&x=100&y=200      -> 0.5
+
+if (request is not '/calculator') (urlObj.pathname)
+    send 404
+else {
+    extract the data from the url
+        - use urlObj.query
+    parse the data
+        - use querystring.parse()
+    call the calculator with the appropriate method
+    get the result
+    send the result as response to the client
+}
