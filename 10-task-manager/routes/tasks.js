@@ -24,4 +24,11 @@ router.get('/:id', function (req, res, next) {
     }
 });
 
+router.post('/', function(req, res, next){
+    var newTask = req.body;
+    newTask.id = taskList.reduce((result, task) => result > task.id ? result : taskId, 0) + 1;
+    taskList.push(newTask);
+    res.status(201).json(newTask);
+});
+
 module.exports = router;
