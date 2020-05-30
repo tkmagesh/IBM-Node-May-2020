@@ -92,3 +92,10 @@ ES6
 Streams
     - Readable Stream
     - Writable Stream
+
+To do: 
+Update the TaskManager to maintain the data in the db file
+http://es6-features.org
+Promises
+HTTP Client in node.js
+TCP Server & Client
