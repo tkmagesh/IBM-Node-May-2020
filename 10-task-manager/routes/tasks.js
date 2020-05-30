@@ -26,9 +26,19 @@ router.get('/:id', function (req, res, next) {
 
 router.post('/', function(req, res, next){
     var newTask = req.body;
-    newTask.id = taskList.reduce((result, task) => result > task.id ? result : taskId, 0) + 1;
+    newTask.id = taskList.reduce((result, task) => result > task.id ? result : task.id, 0) + 1;
     taskList.push(newTask);
     res.status(201).json(newTask);
+});
+
+router.put('/:id', function(req, res, next){
+    var taskToUpdate = req.body;
+    var existingTask = taskList.find(task => task.id === taskToUpdate.id);
+    if (!existingTask){
+        return next();
+    }
+    taskList = taskList.map(task => task.id === taskToUpdate.id ? taskToUpdate : task);
+    res.json(taskToUpdate);
 });
 
 module.exports = router;
