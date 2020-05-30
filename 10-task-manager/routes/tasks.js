@@ -1,22 +1,14 @@
 var express = require('express'),
-    router = express.Router();
-
-var taskList = [
-    {id : 1, name : 'Master JavaScript', isCompleted : false},
-    { id: 2, name: 'Explore Node.js', isCompleted: true }
-];
+    router = express.Router(),
+    taskService = require('../services/taskService');
 
 router.get('/', function (req, res, next){
-    res.json(taskList);
+    res.json(taskService.getAll());
 });
-
 
 router.get('/:id', function (req, res, next) {
     var taskId = parseInt(req.params.id);
-    /* var resultTask = taskList.find(function(task){
-        return task.id === taskId
-    }); */
-    var resultTask = taskList.find(task => task.id === taskId);
+    var resultTask = taskService.get(taskId);
     if (resultTask){
         res.json(resultTask);
     } else {
@@ -25,29 +17,28 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    var newTask = req.body;
-    newTask.id = taskList.reduce((result, task) => result > task.id ? result : task.id, 0) + 1;
-    taskList.push(newTask);
+    var newTaskData = req.body;
+    var newTask = taskService.save(newTaskData);
     res.status(201).json(newTask);
 });
 
 router.put('/:id', function(req, res, next){
     var taskToUpdate = req.body;
-    var existingTask = taskList.find(task => task.id === taskToUpdate.id);
+    var existingTask = taskService.get(taskToUpdate.id);
     if (!existingTask){
         return next();
     }
-    taskList = taskList.map(task => task.id === taskToUpdate.id ? taskToUpdate : task);
-    res.json(taskToUpdate);
+    var updatedTask = taskService.save(taskToUpdate);
+    res.json(updatedTask);
 });
 
 router.delete('/:id', function(req, res, next){
     var taskIdToDelete = parseInt(req.params.id);
-    var existingTask = taskList.find(task => task.id === taskIdToDelete);
+    var existingTask = taskService.get(taskIdToDelete);
     if (!existingTask) {
         return next();
     }
-    taskList = taskList.filter(task => task.id !== taskIdToDelete);
+    taskService.remove(taskIdToDelete);
     res.status(200).json({});
 });
 
