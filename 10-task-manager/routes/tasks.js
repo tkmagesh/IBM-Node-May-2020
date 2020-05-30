@@ -41,4 +41,14 @@ router.put('/:id', function(req, res, next){
     res.json(taskToUpdate);
 });
 
+router.delete('/:id', function(req, res, next){
+    var taskIdToDelete = parseInt(req.params.id);
+    var existingTask = taskList.find(task => task.id === taskIdToDelete);
+    if (!existingTask) {
+        return next();
+    }
+    taskList = taskList.filter(task => task.id !== taskIdToDelete);
+    res.status(200).json({});
+});
+
 module.exports = router;
