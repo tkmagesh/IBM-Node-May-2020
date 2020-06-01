@@ -178,7 +178,7 @@ router.post('/', async function (req, res, next) {
     }
 });
 
-router.put('/:id', function (req, res, next) {
+router.put('/:id', async function (req, res, next) {
     try {
         var taskToUpdate = req.body;
         var existingTask = await taskService.get(taskToUpdate.id)
