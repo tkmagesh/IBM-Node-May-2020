@@ -1,12 +1,1 @@
-[
-    { 
-        "id" : 1, 
-        "name" : "Master JavaScript", 
-        "isCompleted" : false
-    },
-    { 
-        "id": 2, 
-        "name": "Explore Node.js", 
-        "isCompleted": true
-    }
-]
+[{"id":1,"name":"Expertise in JavaScript","isCompleted":false},{"id":2,"name":"Explore Node.js","isCompleted":true}]
