@@ -10,7 +10,16 @@ function addAsync(x, y) {
 }
 
 //client
-var p = addAsync(100, 200);
-p.then(function (result) {
+function addAsyncClient(){
+    var p = addAsync(100, 200);
+    p.then(function (result) {
+        console.log('result = ', result);
+    });
+}
+
+
+//using async await
+async function addAsyncClient(x, y) {
+    var result = await addAsync(x, y);
     console.log('result = ', result);
-});
+}
