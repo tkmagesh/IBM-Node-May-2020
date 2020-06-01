@@ -1,8 +1,10 @@
 var express = require('express'),
     router = express.Router(),
-    taskService = require('../services/taskService');
+    taskService = require('../services/taskService'),
+    createError = require('http-errors');
 
-router.get('/', function (req, res, next){
+//using callback apis
+/* router.get('/', function (req, res, next){
     //res.json(taskService.getAll());
     taskService.getAll(function(err, taskList){
         if (err){
@@ -60,6 +62,84 @@ router.delete('/:id', function(req, res, next){
         });
     });
     
+}); */
+
+//using promise apis
+router.get('/', function (req, res, next) {    
+    taskService
+        .getAll()
+        .then(function(taskList){
+            res.json(taskList);
+        })
+        .catch(function(err){
+            next(err);
+        });
+});
+
+
+router.get('/:id', function (req, res, next) {
+    var taskId = parseInt(req.params.id);
+    taskService.get(taskId)
+        .then(function(resultTask){
+            if (!resultTask){
+                next(createError(404));
+            } else {
+                res.json(resultTask);
+            }
+        })
+        .catch(function(err){
+            return next(err);
+        });
+});
+
+router.post('/', function (req, res, next) {
+    var newTaskData = req.body;
+    taskService
+        .save(newTaskData)
+        .then(function(newTask){
+            res.status(201).json(newTask);
+        })
+        .catch(function(err){
+            return next(err);
+        });
+});
+
+router.put('/:id', function (req, res, next) {
+    var taskToUpdate = req.body;
+    taskService
+        .get(taskToUpdate.id)
+        .then(function(existingTask) {
+            if (!existingTask) {
+                return next();
+            }
+            return taskService
+                .save(taskToUpdate)
+                .then(function (updatedTask) {
+                    res.json(updatedTask);
+                });
+        })
+        .catch(function(err){
+            next(err);
+        });
+});
+
+router.delete('/:id', function (req, res, next) {
+    var taskIdToDelete = parseInt(req.params.id);
+    taskService
+        .get(taskIdToDelete)
+        .then(function (existingTask) {
+            if (!existingTask) {
+                return next();
+            }
+            return taskService
+                .remove(taskIdToDelete)
+                .then(function(){
+                    res.status(200).json({});
+                });
+        })
+        .catch(function(err){
+            next(err);
+        });
 });
 
 module.exports = router;

@@ -1,6 +1,7 @@
 var taskDb = require('./taskDb');
 
-function getAll(callback){
+//using callbacks
+/* function getAll(callback){
     taskDb.readData(function(err, taskList){
         callback(err, taskList);
     });
@@ -37,6 +38,46 @@ function remove(id, callback){
             callback(err);
         });
     });
+} */
+
+
+//using promises
+function getAll() /* returns a promise when resolved will have the taskList */ {
+    return taskDb.readData();
 }
 
+function get(id) {
+    return taskDb
+        .readData()
+        .then(function(taskList){
+            return taskList.find(task => task.id === id);
+        });
+}
+
+function save(taskData) {
+    return taskDb
+        .readData()
+        .then(function (taskList) {
+            if (taskData.id === 0) {
+                taskData.id = taskList.reduce((result, task) => result > task.id ? result : task.id, 0) + 1;
+                taskList.push(taskData);
+            } else {
+                taskList = taskList.map(task => task.id === taskData.id ? taskData : task);
+            }
+            return taskDb
+                .writeData(taskList)
+                .then(function(){
+                    return taskData;  
+                });
+        });
+        
+}
+
+function remove(id) {
+    return taskDb.readData()
+        .then(function(taskList) {
+            var newTaskList = taskList.filter(task => task.id !== id);
+            return taskDb.writeData(newTaskList);
+        });
+}
 module.exports = { getAll, get, save, remove };
