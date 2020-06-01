@@ -1,6 +1,7 @@
 var fs = require('fs'),
     path = require('path'),
-    util = require('util');
+    util = require('util'),
+    bluebird = require('bluebird');
 
 var dbFile = path.join(__dirname, '../db/taskDb.json');
 
@@ -41,7 +42,7 @@ function writeData(taskList) {
 } */
 
 //using util.promisify
-var readFileAsync = util.promisify(fs.readFile);
+/* var readFileAsync = util.promisify(fs.readFile);
 var writeFileAsync = util.promisify(fs.writeFile);
 
 async function readData() {
@@ -52,6 +53,20 @@ async function readData() {
 async function writeData(taskList) {
     var rawData = JSON.stringify(taskList);
     return await writeFileAsync(dbFile, rawData);
+} */
+
+//using bluebird
+
+bluebird.promisifyAll(fs);
+
+async function readData() {
+    var rawData = await fs.readFileAsync(dbFile);
+    return JSON.parse(rawData);
+}
+
+async function writeData(taskList) {
+    var rawData = JSON.stringify(taskList);
+    return await fs.writeFileAsync(dbFile, rawData);
 }
 
 module.exports = { readData, writeData };
