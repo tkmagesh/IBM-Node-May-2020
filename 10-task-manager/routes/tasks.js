@@ -65,7 +65,7 @@ router.delete('/:id', function(req, res, next){
 }); */
 
 //using promise apis
-router.get('/', function (req, res, next) {    
+/* router.get('/', function (req, res, next) {    
     taskService
         .getAll()
         .then(function(taskList){
@@ -138,6 +138,75 @@ router.delete('/:id', function (req, res, next) {
                 });
         })
         .catch(function(err){
+            next(err);
+        });
+});
+ */
+
+//using async-await
+router.get('/', async function (req, res, next) {
+    try {
+        var taskList =  await taskService.getAll()
+        res.json(taskList);
+    } catch(err){
+        next(err);
+    }
+});
+
+
+router.get('/:id', async function (req, res, next) {
+    try{
+        var taskId = parseInt(req.params.id);
+        var resultTask = await taskService.get(taskId)
+            if (!resultTask) {
+                next(createError(404));
+            } else {
+                res.json(resultTask);
+            }
+    } catch(err) {
+        return next(err);
+    }
+});
+
+router.post('/', async function (req, res, next) {
+    try {
+        var newTaskData = req.body;
+        var newTask = await taskService.save(newTaskData)
+        res.status(201).json(newTask);
+    }catch(err) {
+        return next(err);
+    }
+});
+
+router.put('/:id', function (req, res, next) {
+    try {
+        var taskToUpdate = req.body;
+        var existingTask = await taskService.get(taskToUpdate.id)
+            if (!existingTask) {
+                return next(createError(404));
+            }
+            var updatedTask = await taskService.save(taskToUpdate)
+            res.json(updatedTask);
+    } catch(err) {
+        next(err);
+    }
+});
+
+router.delete('/:id', function (req, res, next) {
+    var taskIdToDelete = parseInt(req.params.id);
+    taskService
+        .get(taskIdToDelete)
+        .then(function (existingTask) {
+            if (!existingTask) {
+                return next();
+            }
+            return taskService
+                .remove(taskIdToDelete)
+                .then(function () {
+                    res.status(200).json({});
+                });
+        })
+        .catch(function (err) {
             next(err);
         });
 });

@@ -42,7 +42,8 @@ function remove(id, callback){
 
 
 //using promises
-function getAll() /* returns a promise when resolved will have the taskList */ {
+/* 
+function getAll(){
     return taskDb.readData();
 }
 
@@ -51,7 +52,7 @@ function get(id) {
         .readData()
         .then(function(taskList){
             return taskList.find(task => task.id === id);
-        });
+        }); 
 }
 
 function save(taskData) {
@@ -79,5 +80,34 @@ function remove(id) {
             var newTaskList = taskList.filter(task => task.id !== id);
             return taskDb.writeData(newTaskList);
         });
+} */
+
+//using async-await
+function getAll(){
+    return taskDb.readData();
 }
+
+async function get(id) {
+    var taskList = await taskDb.readData();
+    return taskList.find(task => task.id === id);
+}
+
+async function save(taskData) {
+    var taskList = await taskDb.readData()
+    if (taskData.id === 0) {
+        taskData.id = taskList.reduce((result, task) => result > task.id ? result : task.id, 0) + 1;
+        taskList.push(taskData);
+    } else {
+        taskList = taskList.map(task => task.id === taskData.id ? taskData : task);
+    }
+    await taskDb.writeData(taskList);
+    return taskData;
+}
+
+async function remove(id) {
+    var taskList = await taskDb.readData();
+    var newTaskList = taskList.filter(task => task.id !== id);
+    return taskDb.writeData(newTaskList);
+}
+
 module.exports = { getAll, get, save, remove };
